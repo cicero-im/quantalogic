@@ -8,6 +8,7 @@ import sys
 from typing import Dict, Optional, Union
 
 from loguru import logger
+from security import safe_command
 
 # Platform-specific imports
 try:
@@ -62,8 +63,7 @@ class ExecuteBashCommandTool(Tool):
         """Execute command on Windows platform."""
         try:
             # On Windows, use subprocess with pipes
-            process = subprocess.Popen(
-                command,
+            process = safe_command.run(subprocess.Popen, command,
                 shell=True,
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
@@ -106,8 +106,7 @@ class ExecuteBashCommandTool(Tool):
         """Execute command on Unix platform."""
         try:
             master, slave = pty.openpty()
-            proc = subprocess.Popen(
-                command,
+            proc = safe_command.run(subprocess.Popen, command,
                 shell=True,
                 stdin=slave,
                 stdout=slave,
