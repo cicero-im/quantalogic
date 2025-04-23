@@ -7,11 +7,10 @@ It supports fetching both current and historical astronomy pictures with detaile
 import os
 from datetime import datetime
 from typing import Any, Dict, List
-
-import requests
 from loguru import logger
 
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_requests
 
 
 class NasaApodTool(Tool):
@@ -91,7 +90,7 @@ class NasaApodTool(Tool):
         """
         try:
             params["api_key"] = self.api_key
-            response = requests.get(self.base_url, params=params)
+            response = safe_requests.get(self.base_url, params=params)
             if response.status_code == 200:
                 return response.json()
             else:

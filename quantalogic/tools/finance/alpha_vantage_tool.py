@@ -9,12 +9,12 @@ from typing import Any, ClassVar, Dict, List
 
 import numpy as np
 import pandas as pd
-import requests
 import ta
 from loguru import logger
 from pydantic import model_validator
 
 from quantalogic.tools import Tool, ToolArgument
+from security import safe_requests
 
 
 class AssetType(str, Enum):
@@ -168,7 +168,7 @@ class AlphaVantageTool(Tool):
             # Make request using ThreadPoolExecutor for blocking IO
             response = await asyncio.get_event_loop().run_in_executor(
                 self.executor,
-                lambda: requests.get(self.base_url, params=params)
+                lambda: safe_requests.get(self.base_url, params=params)
             )
             response.raise_for_status()
             

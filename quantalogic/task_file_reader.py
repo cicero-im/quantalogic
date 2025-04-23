@@ -1,6 +1,7 @@
 """Module for reading task content from files or URLs."""
 
 import requests
+from security import safe_requests
 
 
 def get_task_from_file(source: str) -> str:
@@ -21,7 +22,7 @@ def get_task_from_file(source: str) -> str:
     try:
         # Check if source is a URL
         if source.startswith(("http://", "https://")):
-            response = requests.get(source, timeout=10)
+            response = safe_requests.get(source, timeout=10)
             response.raise_for_status()  # Raise an exception for bad status codes
             return response.text.strip()
 

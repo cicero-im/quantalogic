@@ -3,9 +3,8 @@
 import logging
 from time import sleep
 from typing import Optional
-
-import requests
 from requests.exceptions import ConnectionError, HTTPError, RequestException, Timeout, TooManyRedirects
+from security import safe_requests
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -36,7 +35,7 @@ def download_http_file(
     for attempt in range(max_retries):
         try:
             logger.debug(f"Attempt {attempt + 1} of {max_retries} to download {url}")
-            response = requests.get(url, headers=headers, stream=True, timeout=timeout)
+            response = safe_requests.get(url, headers=headers, stream=True, timeout=timeout)
             response.raise_for_status()
 
             content_type = response.headers.get("Content-Type", "unknown")
