@@ -356,7 +356,7 @@ class Nodes:
             file_path = Path(prompt_file).resolve()
             directory = file_path.parent
             filename = file_path.name
-            env = Environment(loader=FileSystemLoader(directory))
+            env = Environment(loader=FileSystemLoader(directory), autoescape=True)
             template = env.get_template(filename)
             return template.render(**context)
         except TemplateNotFound as e:
