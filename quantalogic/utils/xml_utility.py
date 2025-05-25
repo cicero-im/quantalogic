@@ -90,7 +90,7 @@ def parse_xml_to_model(xml_content: str, model: Type[T]) -> T:
         pydantic.ValidationError: If data doesn’t match the model (after defaults).
     """
     # Parse XML with fault-tolerant settings
-    parser = etree.XMLParser(recover=True)
+    parser = etree.XMLParser(recover=True, resolve_entities=False)
     root = etree.fromstring(xml_content, parser=parser)
     # Convert to dictionary
     data = element_to_dict(root)
