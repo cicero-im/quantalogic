@@ -68,7 +68,7 @@ class GFinanceTool(Tool):
             url = f"{self.BASE_URL}/{ticker}/historical"
             
             # Make the request
-            response = requests.get(url, params=params)
+            response = requests.get(url, params=params, timeout=60)
             response.raise_for_status()
             
             # Parse the response and convert to DataFrame
@@ -118,7 +118,7 @@ class GFinanceTool(Tool):
         """Fetch fundamental data from Google Finance."""
         try:
             url = f"{self.BASE_URL}/{ticker}"
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()
             
             # Parse the response to extract fundamental data

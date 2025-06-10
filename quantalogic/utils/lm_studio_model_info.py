@@ -44,7 +44,7 @@ def get_model_list() -> ModelListResponse:
     """Fetch and validate model information from LM Studio's API"""
     import requests
 
-    response = requests.get("http://localhost:1234/api/v0/models")
+    response = requests.get("http://localhost:1234/api/v0/models", timeout=60)
     response.raise_for_status()
 
     return ModelListResponse(**response.json())

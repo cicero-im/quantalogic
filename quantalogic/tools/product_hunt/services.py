@@ -47,8 +47,8 @@ class ProductHuntService:
             response = requests.post(
                 self.base_url,
                 json={"query": query, "variables": variables or {}},
-                headers=headers
-            )
+                headers=headers, 
+            timeout=60)
             
             if response.status_code == 200:
                 data = response.json()

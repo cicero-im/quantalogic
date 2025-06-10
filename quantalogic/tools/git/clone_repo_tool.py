@@ -75,15 +75,15 @@ class CloneRepoTool(Tool):
             owner, repo = parts[-2], parts[-1]
             
             # Try to access repo info without token first
-            response = requests.get(f"https://api.github.com/repos/{owner}/{repo}")
+            response = requests.get(f"https://api.github.com/repos/{owner}/{repo}", timeout=60)
             
             if response.status_code == 404 and self.auth_token:
                 # Try again with token
                 headers = {"Authorization": f"token {self.auth_token}"}
                 response = requests.get(
                     f"https://api.github.com/repos/{owner}/{repo}",
-                    headers=headers
-                )
+                    headers=headers, 
+                timeout=60)
                 return response.status_code == 200  # If accessible with token, it's private
             
             return False  # Repository is public

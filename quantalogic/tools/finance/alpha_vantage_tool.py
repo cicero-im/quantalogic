@@ -168,7 +168,7 @@ class AlphaVantageTool(Tool):
             # Make request using ThreadPoolExecutor for blocking IO
             response = await asyncio.get_event_loop().run_in_executor(
                 self.executor,
-                lambda: requests.get(self.base_url, params=params)
+                lambda: requests.get(self.base_url, params=params, timeout=60)
             )
             response.raise_for_status()
             

@@ -289,7 +289,7 @@ class MarketIntelligenceTool(Tool):
             elif asset_type == 'crypto':
                 # CoinGecko API for crypto
                 url = f"https://api.coingecko.com/api/v3/coins/{symbol.lower()}/market_data"
-                response = requests.get(url)
+                response = requests.get(url, timeout=60)
                 if response.status_code == 200:
                     ratings['market_data'] = response.json()
             
@@ -324,7 +324,7 @@ class MarketIntelligenceTool(Tool):
             elif asset_type == 'crypto':
                 # CoinGecko Events
                 url = f"https://api.coingecko.com/api/v3/coins/{symbol.lower()}/events"
-                response = requests.get(url)
+                response = requests.get(url, timeout=60)
                 if response.status_code == 200:
                     events.extend([
                         {'type': 'crypto_event', 'data': event}
@@ -345,7 +345,7 @@ class MarketIntelligenceTool(Tool):
             # SEC API for stocks
             if asset_type == 'stock':
                 sec_url = f"https://data.sec.gov/submissions/CIK{symbol}.json"
-                response = requests.get(sec_url)
+                response = requests.get(sec_url, timeout=60)
                 if response.status_code == 200:
                     updates.extend([
                         {'type': 'sec_update', 'data': filing}
@@ -414,7 +414,7 @@ class MarketIntelligenceTool(Tool):
                     'per_page': 10,
                     'page': 1
                 }
-                response = requests.get(url, params=params)
+                response = requests.get(url, params=params, timeout=60)
                 if response.status_code == 200:
                     analysis['market_leaders'] = response.json()
             

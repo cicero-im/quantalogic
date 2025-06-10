@@ -291,7 +291,7 @@ graph TD
         """
         try:
             if src.startswith(('http://', 'https://')):
-                response = requests.get(src)
+                response = requests.get(src, timeout=60)
                 response.raise_for_status()
                 path = f"image_{hash(src)}.{src.split('.')[-1]}"
                 with open(path, 'wb') as f:
@@ -343,7 +343,7 @@ graph TD
             graphbytes = base64.b64encode(code.encode('utf-8'))
             graphurl = f"https://mermaid.ink/img/{graphbytes.decode('utf-8')}"
             
-            response = requests.get(graphurl)
+            response = requests.get(graphurl, timeout=60)
             if response.status_code == 200:
                 with open(cache_path, "wb") as f:
                     f.write(response.content)

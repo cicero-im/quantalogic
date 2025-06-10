@@ -91,7 +91,7 @@ class NasaApodTool(Tool):
         """
         try:
             params["api_key"] = self.api_key
-            response = requests.get(self.base_url, params=params)
+            response = requests.get(self.base_url, params=params, timeout=60)
             if response.status_code == 200:
                 return response.json()
             else:
