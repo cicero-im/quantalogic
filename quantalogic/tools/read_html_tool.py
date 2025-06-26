@@ -1,5 +1,4 @@
 import os
-import random
 import time
 from typing import Optional
 
@@ -7,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from loguru import logger
 from pydantic import BaseModel, Field, field_validator
+import secrets
 
 # Ensure that markdownify is installed: pip install markdownify
 try:
@@ -143,10 +143,10 @@ class ReadHTMLTool(Tool):
         try:
             # Randomize User-Agent
             headers = ADDITIONAL_HEADERS.copy()
-            headers["User-Agent"] = random.choice(USER_AGENTS)
+            headers["User-Agent"] = secrets.choice(USER_AGENTS)
 
             # Add a small random delay to mimic human behavior
-            time.sleep(random.uniform(0.5, 2.0))
+            time.sleep(secrets.SystemRandom().uniform(0.5, 2.0))
 
             # Use a timeout to prevent hanging
             response = requests.get(url, headers=headers, timeout=10, allow_redirects=True)

@@ -1,12 +1,11 @@
 """Module for checking and displaying version updates."""
 
-import random
-
 from rich.console import Console
 from rich.panel import Panel
 
 from quantalogic.utils.check_version import check_if_is_latest_version
 from quantalogic.version import get_version
+import secrets
 
 
 def check_new_version() -> None:
@@ -17,7 +16,7 @@ def check_new_version() -> None:
     with installation instructions if a new version is found.
     """
     # Randomly check for updates (1 in 10 chance)
-    if random.randint(1, 10) == 1:
+    if secrets.SystemRandom().randint(1, 10) == 1:
         try:
             current_version = get_version()
             has_new_version, latest_version = check_if_is_latest_version()

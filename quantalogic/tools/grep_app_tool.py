@@ -1,6 +1,5 @@
 # quantalogic/tools/grep_app_tool.py
 
-import random
 import sys
 import time
 from typing import Any, ClassVar, Dict, Optional, Union
@@ -10,6 +9,7 @@ from loguru import logger
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 from quantalogic.tools.tool import Tool, ToolArgument
+import secrets
 
 # Configurable User Agents
 USER_AGENTS = [
@@ -119,7 +119,7 @@ class GrepAppTool(Tool):
     def _build_headers(self) -> Dict[str, str]:
         """Build request headers with random User-Agent"""
         headers = {
-            "User-Agent": random.choice(USER_AGENTS),
+            "User-Agent": secrets.choice(USER_AGENTS),
             "Accept": "application/json",
             "Accept-Language": "en-US,en;q=0.5",
             "DNT": "1",
@@ -182,7 +182,7 @@ class GrepAppTool(Tool):
 
             # Add random delay to mimic human behavior (unless skipped for testing)
             if not skip_delay:
-                delay = random.uniform(0.5, 1.5)
+                delay = secrets.SystemRandom().uniform(0.5, 1.5)
                 logger.debug(f"Sleeping for {delay:.2f} seconds to mimic human behavior")
                 time.sleep(delay)
 

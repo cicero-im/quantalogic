@@ -1,9 +1,9 @@
-import random
 from datetime import datetime, timedelta
 
 from faker import Faker
 from sqlalchemy import Column, Date, Float, ForeignKey, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+import secrets
 
 Base = declarative_base()
 fake = Faker()
@@ -82,7 +82,7 @@ def create_sample_database(db_path: str) -> None:
         # Create 10 products
         products = []
         for _ in range(10):
-            product = Product(name=fake.word().capitalize(), price=round(random.uniform(10, 1000), 2))
+            product = Product(name=fake.word().capitalize(), price=round(secrets.SystemRandom().uniform(10, 1000), 2))
             products.append(product)
             session.add(product)
 
@@ -96,7 +96,7 @@ def create_sample_database(db_path: str) -> None:
 
         # Create 10 order items (1 per order)
         for order in orders:
-            order_item = OrderItem(quantity=random.randint(1, 5), order=order, product=random.choice(products))
+            order_item = OrderItem(quantity=secrets.SystemRandom().randint(1, 5), order=order, product=secrets.choice(products))
             session.add(order_item)
 
         session.commit()
