@@ -7,6 +7,7 @@ import subprocess
 import tempfile
 
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_command
 
 # Configure logging for the module
 logger = logging.getLogger(__name__)
@@ -445,8 +446,7 @@ class NodeJsTool(Tool):
         logger.debug(f"Docker run command: {' '.join(docker_run_cmd)}")
 
         try:
-            result = subprocess.run(
-                docker_run_cmd,
+            result = safe_command.run(subprocess.run, docker_run_cmd,
                 check=True,
                 capture_output=True,
                 text=True,

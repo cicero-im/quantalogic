@@ -6,6 +6,7 @@ import subprocess
 import tempfile
 
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_command
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -173,7 +174,7 @@ ElixirScript.main()
 
             # Execute
             try:
-                result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+                result = safe_command.run(subprocess.run, cmd, check=True, capture_output=True, text=True)
                 output = result.stdout
                 if result.stderr:
                     output = f"{output}\nErrors:\n{result.stderr}"
