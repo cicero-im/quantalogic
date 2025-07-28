@@ -10,6 +10,7 @@ from loguru import logger
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_requests
 
 # Configurable User Agents
 USER_AGENTS = [
@@ -144,7 +145,7 @@ class GrepAppTool(Tool):
     def _make_request(self, params: Dict[str, Any], headers: Dict[str, str]) -> Dict[str, Any]:
         """Make the API request"""
         logger.info("Making API request to grep.app")
-        response = requests.get(self.BASE_URL, params=params, headers=headers, timeout=self.TIMEOUT)
+        response = safe_requests.get(self.BASE_URL, params=params, headers=headers, timeout=self.TIMEOUT)
         logger.debug(f"API Response Status Code: {response.status_code}")
         response.raise_for_status()
         data = response.json()

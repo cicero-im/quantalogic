@@ -7,6 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 from loguru import logger
 from pydantic import BaseModel, Field, field_validator
+from security import safe_requests
 
 # Ensure that markdownify is installed: pip install markdownify
 try:
@@ -149,7 +150,7 @@ class ReadHTMLTool(Tool):
             time.sleep(random.uniform(0.5, 2.0))
 
             # Use a timeout to prevent hanging
-            response = requests.get(url, headers=headers, timeout=10, allow_redirects=True)
+            response = safe_requests.get(url, headers=headers, timeout=10, allow_redirects=True)
             response.raise_for_status()
             return response.text
         except requests.RequestException as e:

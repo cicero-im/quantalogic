@@ -3,14 +3,13 @@
 import os
 import shutil
 from pathlib import Path
-
-import requests
 from git import Repo
 from git.exc import GitCommandError
 from loguru import logger
 from pydantic import Field
 
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_requests
 
 # Base directory for all cloned repositories
 GITHUB_REPOS_BASE_DIR = "/tmp/github_repos"
@@ -75,12 +74,12 @@ class CloneRepoTool(Tool):
             owner, repo = parts[-2], parts[-1]
             
             # Try to access repo info without token first
-            response = requests.get(f"https://api.github.com/repos/{owner}/{repo}")
+            response = safe_requests.get(f"https://api.github.com/repos/{owner}/{repo}")
             
             if response.status_code == 404 and self.auth_token:
                 # Try again with token
                 headers = {"Authorization": f"token {self.auth_token}"}
-                response = requests.get(
+                response = safe_requests.get(
                     f"https://api.github.com/repos/{owner}/{repo}",
                     headers=headers
                 )

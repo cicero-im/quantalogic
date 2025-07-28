@@ -5,6 +5,7 @@ from time import sleep
 
 import requests
 from requests.exceptions import ConnectionError, HTTPError, RequestException
+from security import safe_requests
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -46,7 +47,7 @@ def read_http_text_content(
     for attempt in range(retries):
         try:
             logger.debug(f"Attempt {attempt + 1} of {retries} to fetch {url}")
-            response = requests.get(url, headers=headers, timeout=timeout)
+            response = safe_requests.get(url, headers=headers, timeout=timeout)
             response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
 
             # Check if the content type is text-based

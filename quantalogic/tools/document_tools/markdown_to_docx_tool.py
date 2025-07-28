@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
 import markdown
-import requests
 from bs4 import BeautifulSoup, Tag
 from docx import Document
 from docx.enum.style import WD_STYLE_TYPE
@@ -29,6 +28,7 @@ from pygments.lexers import TextLexer, get_lexer_by_name
 from pygments.styles import get_style_by_name
 
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_requests
 
 
 class MarkdownToDocxTool(Tool):
@@ -291,7 +291,7 @@ graph TD
         """
         try:
             if src.startswith(('http://', 'https://')):
-                response = requests.get(src)
+                response = safe_requests.get(src)
                 response.raise_for_status()
                 path = f"image_{hash(src)}.{src.split('.')[-1]}"
                 with open(path, 'wb') as f:
@@ -343,7 +343,7 @@ graph TD
             graphbytes = base64.b64encode(code.encode('utf-8'))
             graphurl = f"https://mermaid.ink/img/{graphbytes.decode('utf-8')}"
             
-            response = requests.get(graphurl)
+            response = safe_requests.get(graphurl)
             if response.status_code == 200:
                 with open(cache_path, "wb") as f:
                     f.write(response.content)

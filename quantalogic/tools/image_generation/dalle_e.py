@@ -5,14 +5,13 @@ import json
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, Optional
-
-import requests
 from loguru import logger
 from pydantic import ConfigDict, Field
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from quantalogic.generative_model import GenerativeModel
 from quantalogic.tools.tool import Tool, ToolArgument
+from security import safe_requests
 
 
 class ImageProvider(str, Enum):
@@ -153,7 +152,7 @@ class LLMImageGenerationTool(Tool):
     def _save_image(self, image_url: str, filename: str) -> Path:
         """Download and save image locally with retry logic."""
         try:
-            response = requests.get(image_url, timeout=30)
+            response = safe_requests.get(image_url, timeout=30)
             response.raise_for_status()
 
             file_path = self.output_dir / filename

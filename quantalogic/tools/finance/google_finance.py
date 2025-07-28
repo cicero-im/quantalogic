@@ -6,6 +6,7 @@ import requests
 from loguru import logger
 
 from quantalogic.tools import Tool, ToolArgument
+from security import safe_requests
 
 
 class GFinanceTool(Tool):
@@ -68,7 +69,7 @@ class GFinanceTool(Tool):
             url = f"{self.BASE_URL}/{ticker}/historical"
             
             # Make the request
-            response = requests.get(url, params=params)
+            response = safe_requests.get(url, params=params)
             response.raise_for_status()
             
             # Parse the response and convert to DataFrame
@@ -118,7 +119,7 @@ class GFinanceTool(Tool):
         """Fetch fundamental data from Google Finance."""
         try:
             url = f"{self.BASE_URL}/{ticker}"
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
             
             # Parse the response to extract fundamental data

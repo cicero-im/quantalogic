@@ -2,6 +2,7 @@ import requests
 from packaging import version
 
 from quantalogic.version import get_version
+from security import safe_requests
 
 
 def check_if_is_latest_version() -> (bool, str | None):
@@ -12,7 +13,7 @@ def check_if_is_latest_version() -> (bool, str | None):
     """
     try:
         current_version = get_version()
-        response = requests.get("https://pypi.org/pypi/quantalogic/json", timeout=5)
+        response = safe_requests.get("https://pypi.org/pypi/quantalogic/json", timeout=5)
         response.raise_for_status()
         latest_version = response.json()["info"]["version"]
         has_new_version = version.parse(current_version) < version.parse(latest_version)

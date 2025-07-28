@@ -1,8 +1,7 @@
 from typing import Union
+from security import safe_requests
 
 """Tool for interacting with Wikipedia API for search results."""
-
-import requests  # noqa: E402
 
 from quantalogic.tools.tool import Tool, ToolArgument  # noqa: E402
 
@@ -112,7 +111,7 @@ class WikipediaSearchTool(Tool):
                 "sroffset": (page - 1) * num_results,
             }
 
-            response = requests.get(url, params=params)
+            response = safe_requests.get(url, params=params)
             response.raise_for_status()
             data = response.json()
 
