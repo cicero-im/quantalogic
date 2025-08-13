@@ -1018,7 +1018,7 @@ class Agent(BaseModel):
             
             # Set up Jinja2 environment
             template_dir = current_dir / 'prompts'
-            env = Environment(loader=FileSystemLoader(template_dir))
+            env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
             
             # Load the template
             template = env.get_template(template_name)
