@@ -24,7 +24,7 @@ def system_prompt(tools: str, environment: str, expertise: str = ""):
     
     # Set up Jinja2 environment
     template_dir = current_dir / 'prompts'
-    env = Environment(loader=FileSystemLoader(template_dir))
+    env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
     
     # Load the template
     template = env.get_template('system_prompt.j2')
